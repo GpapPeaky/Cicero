@@ -27,28 +27,40 @@ public class CCR_TodoBox extends JComponent{
         this.setBounds(0, yPosition, 200, 200);
         this.setLayout(null);
 
+        this.taskName = "New Task";
+        this.taskDescription = "Task description";
 
         this.todoPanel = new JPanel();
         this.todoPanel.setLayout(null);
         todoPanel.setLayout(null);
         
-        /* FIXME: Paths, problems with icon imports */
-        ImageIcon bgIcon = new ImageIcon(getClass().getResource("/assets/todo_box_panel.png"));
+        ImageIcon bgIcon = null;
+        try{
+            bgIcon = new ImageIcon(getClass().getResource("assets/todo_box_panel.png"));
+        }catch(Exception e){
+            System.out.println("Background image not found!");
+        }
+
         JLabel bgLabel = new JLabel(bgIcon);
         bgLabel.setBounds(0, 0, 200, 200);  // Same size as the panel
         
         todoPanel.add(bgLabel);
         this.todoPanel.setBounds(0, 0, 200, 200);
 
-        this.taskName = "New Task";
-        this.taskDescription = "Task description";
+        ImageIcon deleteIcon = null;
+        try{
+            deleteIcon = new ImageIcon(getClass().getResource("assets/delete_icon.png"));
+        }catch (Exception e){
+            System.out.println("Delete icon not found!");
+        }
 
-        this.deleteTaskButton = new JButton(new ImageIcon(getClass().getResource("/assets/delete_icon.png"))); // Add an image icon
+        this.deleteTaskButton = new JButton(deleteIcon); // Add an image icon
         deleteTaskButton.setOpaque(false);     // Makes button background transparent
         deleteTaskButton.setContentAreaFilled(false); // Prevents default button fill
         deleteTaskButton.setBorderPainted(false);     // Removes the border
         deleteTaskButton.setFocusPainted(false);      // Removes focus outline when clicked
-        this.deleteTaskButton.setBounds(this.todoPanel.getWidth() - 30, this.todoPanel.getY(), 20, 20);
+        this.deleteTaskButton.setBounds(this.todoPanel.getWidth() - 30, 5, 20, 20);
+
         this.todoPanel.add(this.deleteTaskButton);
 
         this.add(this.todoPanel);

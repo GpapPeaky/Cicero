@@ -6,7 +6,8 @@ public class CCR_GUI{
 
     public JFrame CCR_WindowCreate(){
         JFrame frame = new JFrame("Cicero");
-        frame.setSize(700, 860);
+        frame.setSize(400, 650);
+        frame.setResizable(false);
 
         /* Add components */
         CCR_GUIButtonsCreate(frame);
@@ -19,7 +20,7 @@ public class CCR_GUI{
 
     public void CCR_GUIButtonsCreate(JFrame frame){
         JButton addTaskButton = new JButton("Add task");
-        addTaskButton.setBounds(0,0,250,30);
+        addTaskButton.setBounds(0,0,100,25);
         addTaskButton.addActionListener(e -> {
             System.out.println("Add task button pressed");
             CCR_TodoBox todoBox = new CCR_TodoBox(frame, taskCount * 100 + 30);
@@ -32,15 +33,15 @@ public class CCR_GUI{
         frame.add(addTaskButton);
 
         JButton loadWorkspaceButton = new JButton("Load workspace");
-        loadWorkspaceButton.setBounds(250,0,250,30);
+        loadWorkspaceButton.setBounds(100,0,100,25);
         frame.add(loadWorkspaceButton);
 
         JButton saveWorspaceButton = new JButton("Save workspace");
-        saveWorspaceButton.setBounds(500,0,250,30);
+        saveWorspaceButton.setBounds(200,0,100,25);
         frame.add(saveWorspaceButton);
 
         JButton changeDisplayButton = new JButton("Grid display");
-        changeDisplayButton.setBounds(750,0,250,30);
+        changeDisplayButton.setBounds(300,0,100,25);
         frame.add(changeDisplayButton);
 
         return;
