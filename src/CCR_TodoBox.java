@@ -3,66 +3,47 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.ImageIcon;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
-public class CCR_TodoBox extends JComponent{
+import javafx.scene.text.Font;
+
+import java.awt.Color;
+
+import javax.swing.BorderFactory;
+
+public class CCR_TodoBox extends JPanel{
     /* Panel where all todo-box components exist, save positions here */
-    private JPanel todoPanel;
+    public JTextField titleField;
+    public JTextArea descriptionArea;
 
-    /* Task name */
-    private String taskName;
-    
-    /* Task description */
-    private String taskDescription;
+    public CCR_TodoBox(JFrame parentFrame, int yPosition){
+        // Panel properties
+        setLayout(null);
+        setBounds(5, yPosition, parentFrame.getWidth() - 15, 125);
+        setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255, 255), 2, true));
+        setBackground(new Color(75, 75, 75, 255));
+        setVisible(true);
 
-    private JPanel taskPanel;
+        // Title text field
+        titleField = new JTextField();
+        titleField.setBounds(getWidth() / 2 - (getWidth() / 3) / 2, 5, getWidth() / 3, 19);
+        titleField.setForeground(new Color(0, 0, 0, 255));
+        titleField.setBackground(new Color(255, 255, 255, 0));
+        titleField.setBorder(BorderFactory.createLineBorder(getBackground()));
+        add(titleField);
 
-    /* When pressed it will delete the task and remove it from the layout */
-    private JButton deleteTaskButton;
+        // Description text area
+        descriptionArea = new JTextArea("• "); // start with a bullet
+        descriptionArea.setLineWrap(true);
+        descriptionArea.setWrapStyleWord(true);
+        descriptionArea.setForeground(Color.WHITE);
+        descriptionArea.setBackground(new Color(45, 45, 45));
+        descriptionArea.setCaretColor(Color.WHITE);
 
-    /* Constructor */
-    public CCR_TodoBox(JFrame frame, int yPosition){
-        // We need to find the correct position
-        // in the layout
-        this.setBounds(0, yPosition, 200, 200);
-        this.setLayout(null);
-
-        this.taskName = "New Task";
-        this.taskDescription = "Task description";
-
-        this.todoPanel = new JPanel();
-        this.todoPanel.setLayout(null);
-        todoPanel.setLayout(null);
-        
-        ImageIcon bgIcon = null;
-        try{
-            bgIcon = new ImageIcon(getClass().getResource("assets/todo_box_panel.png"));
-        }catch(Exception e){
-            System.out.println("Background image not found!");
-        }
-
-        JLabel bgLabel = new JLabel(bgIcon);
-        bgLabel.setBounds(0, 0, 200, 200);  // Same size as the panel
-        
-        todoPanel.add(bgLabel);
-        this.todoPanel.setBounds(0, 0, 200, 200);
-
-        ImageIcon deleteIcon = null;
-        try{
-            deleteIcon = new ImageIcon(getClass().getResource("assets/delete_icon.png"));
-        }catch (Exception e){
-            System.out.println("Delete icon not found!");
-        }
-
-        this.deleteTaskButton = new JButton(deleteIcon); // Add an image icon
-        deleteTaskButton.setOpaque(false);     // Makes button background transparent
-        deleteTaskButton.setContentAreaFilled(false); // Prevents default button fill
-        deleteTaskButton.setBorderPainted(false);     // Removes the border
-        deleteTaskButton.setFocusPainted(false);      // Removes focus outline when clicked
-        this.deleteTaskButton.setBounds(this.todoPanel.getWidth() - 30, 5, 20, 20);
-
-        this.todoPanel.add(this.deleteTaskButton);
-
-        this.add(this.todoPanel);
+        JScrollPane scrollPane = new JScrollPane(descriptionArea);
+        scrollPane.setBounds(getWidth() / 2 - (getWidth() - 20) / 2, 30, getWidth() - 20, 80);
+        add(scrollPane);
     }
 }

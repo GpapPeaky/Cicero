@@ -23,7 +23,7 @@ public class CCR_GUI{
         addTaskButton.setBounds(0,0,100,25);
         addTaskButton.addActionListener(e -> {
             System.out.println("Add task button pressed");
-            CCR_TodoBox todoBox = new CCR_TodoBox(frame, taskCount * 100 + 30);
+            CCR_TodoBox todoBox = new CCR_TodoBox(frame, taskCount * 130 + 30);
             
             frame.add(todoBox);
             frame.repaint();
