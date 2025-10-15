@@ -10,6 +10,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
@@ -56,8 +57,9 @@ public class CCR_TodoBox extends JPanel{
 
         // Priority label
         priority = 1;
-        priorityLabel = new JLabel(priorityName(priority));
+        priorityLabel = new JLabel(priorityName(priority), JLabel.CENTER);
         priorityLabel.setForeground(new Color(0x2ECC71));
+        priorityLabel.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 22));
 
         // Increase priority button
         increasePriorityButton = new JButton("▲");
@@ -68,7 +70,12 @@ public class CCR_TodoBox extends JPanel{
         decreasePriorityButton = new JButton("▼");
         stylePriorityButton(decreasePriorityButton);
         decreasePriorityButton.addActionListener(e -> changePriority(-1));
-        
+
+        // Fixed width
+        decreasePriorityButton.setPreferredSize(new Dimension(40, 30));
+        increasePriorityButton.setPreferredSize(new Dimension(40, 30)); 
+        priorityLabel.setPreferredSize(new Dimension(40, 30));
+
         // Delete button
         deleteButton = new JButton("");
         deleteButton.setBackground(CCR_Colors.CLS_BUTTON_BG);
@@ -92,6 +99,7 @@ public class CCR_TodoBox extends JPanel{
         
         // Priority panel
         JPanel priorityPanel = new JPanel();
+        priorityPanel.setLayout(new GridLayout(1, 3, 5, 0)); // 5 px horizontal gap
         priorityPanel.setBackground(CCR_Colors.PANEL_BG);
         priorityPanel.add(decreasePriorityButton);
         priorityPanel.add(priorityLabel);
@@ -161,9 +169,9 @@ public class CCR_TodoBox extends JPanel{
 
     private String priorityName(int p){
         switch(p){
-            case 1: return "L";
-            case 2: return "M";
-            case 3: return "H";
+            case 1: return "█";
+            case 2: return "█";
+            case 3: return "█";
             default: return "U";
         }
     }
