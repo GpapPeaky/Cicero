@@ -1,5 +1,6 @@
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -46,7 +47,7 @@ public class CCR_TodoBox extends JPanel{
         topBar.setBackground(CCR_Colors.PANEL_BG);
         topBar.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
-        titleField = new JTextField("Task_" + (CCR_GUI.taskCount + 1));
+        titleField = new JTextField("Task" + (CCR_GUI.taskCount + 1));
         titleField.setForeground(CCR_Colors.TEXT_COLOR);
         titleField.setBackground(CCR_Colors.TEXT_BG);
         titleField.setCaretColor(CCR_Colors.TEXT_COLOR);
@@ -54,25 +55,21 @@ public class CCR_TodoBox extends JPanel{
         titleField.setFont(new Font("Consolas", Font.PLAIN, 17));
 
         // Priority label
-        priorityLabel = new JLabel("Priority: " + priorityName(priority));
-        priorityLabel.setBounds(10 + getWidth() / 3 + 5, 10, 100, 20);
-        priorityLabel.setForeground(CCR_Colors.TEXT_COLOR);
-        topBar.add(priorityLabel);
+        priority = 1;
+        priorityLabel = new JLabel(priorityName(priority));
+        priorityLabel.setForeground(new Color(0x2ECC71));
 
         // Increase priority button
         increasePriorityButton = new JButton("▲");
-        increasePriorityButton.setBounds(10 + getWidth() / 3 + 110, 10, 45, 20);
         stylePriorityButton(increasePriorityButton);
         increasePriorityButton.addActionListener(e -> changePriority(1));
-        topBar. add(increasePriorityButton);
 
         // Decrease priority button
         decreasePriorityButton = new JButton("▼");
-        decreasePriorityButton.setBounds(10 + getWidth() / 3 + 160, 10, 45, 20);
         stylePriorityButton(decreasePriorityButton);
         decreasePriorityButton.addActionListener(e -> changePriority(-1));
-        topBar.add(decreasePriorityButton);
-
+        
+        // Delete button
         deleteButton = new JButton("");
         deleteButton.setBackground(CCR_Colors.CLS_BUTTON_BG);
         deleteButton.setForeground(CCR_Colors.TEXT_COLOR);
@@ -88,8 +85,28 @@ public class CCR_TodoBox extends JPanel{
             CCR_GUI.taskCount--; // Lower the task count
         });
 
-        topBar.add(titleField, BorderLayout.CENTER);
-        topBar.add(deleteButton, BorderLayout.EAST);
+        // Use a vertical BoxLayout for topBar
+        topBar.setLayout(new BoxLayout(topBar, BoxLayout.Y_AXIS));
+        topBar.setBackground(CCR_Colors.PANEL_BG);
+        topBar.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        
+        // Priority panel
+        JPanel priorityPanel = new JPanel();
+        priorityPanel.setBackground(CCR_Colors.PANEL_BG);
+        priorityPanel.add(decreasePriorityButton);
+        priorityPanel.add(priorityLabel);
+        priorityPanel.add(increasePriorityButton);
+        
+        // Title + delete button panel
+        JPanel titlePanel = new JPanel(new BorderLayout());
+        titlePanel.setBackground(CCR_Colors.PANEL_BG);
+        titlePanel.add(titleField, BorderLayout.CENTER);
+        titlePanel.add(deleteButton, BorderLayout.EAST);
+        
+        // Add to topBar
+        topBar.add(priorityPanel);
+        topBar.add(Box.createVerticalStrut(5));
+        topBar.add(titlePanel);
 
         // Description area
         descriptionArea = new JTextArea("");
@@ -116,7 +133,7 @@ public class CCR_TodoBox extends JPanel{
         btn.setBackground(CCR_Colors.BUTTON_BG);
         btn.setForeground(CCR_Colors.TEXT_COLOR);
         btn.setFocusPainted(false);
-        btn.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 22));
         btn.setBorder(null);
     }
 
@@ -144,10 +161,10 @@ public class CCR_TodoBox extends JPanel{
 
     private String priorityName(int p){
         switch(p){
-            case 1: return "Low";
-            case 2: return "Medium";
-            case 3: return "High";
-            default: return "Unknown";
+            case 1: return "L";
+            case 2: return "M";
+            case 3: return "H";
+            default: return "U";
         }
     }
 }
