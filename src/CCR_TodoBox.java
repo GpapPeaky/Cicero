@@ -1,10 +1,13 @@
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -20,6 +23,12 @@ public class CCR_TodoBox extends JPanel{
 
     // Deletes a task
     private JButton deleteButton;
+
+    // Priority system
+    private int priority = 1; // 1 = low, 2 = medium, 3 = high
+    private JLabel priorityLabel;
+    private JButton increasePriorityButton;
+    private JButton decreasePriorityButton;
 
     // Todo box constructor
     public CCR_TodoBox(JFrame parentFrame, JPanel container){
@@ -43,6 +52,26 @@ public class CCR_TodoBox extends JPanel{
         titleField.setCaretColor(CCR_Colors.TEXT_COLOR);
         titleField.setBorder(null);
         titleField.setFont(new Font("Consolas", Font.PLAIN, 17));
+
+        // Priority label
+        priorityLabel = new JLabel("Priority: " + priorityName(priority));
+        priorityLabel.setBounds(10 + getWidth() / 3 + 5, 10, 100, 20);
+        priorityLabel.setForeground(CCR_Colors.TEXT_COLOR);
+        topBar.add(priorityLabel);
+
+        // Increase priority button
+        increasePriorityButton = new JButton("▲");
+        increasePriorityButton.setBounds(10 + getWidth() / 3 + 110, 10, 45, 20);
+        stylePriorityButton(increasePriorityButton);
+        increasePriorityButton.addActionListener(e -> changePriority(1));
+        topBar. add(increasePriorityButton);
+
+        // Decrease priority button
+        decreasePriorityButton = new JButton("▼");
+        decreasePriorityButton.setBounds(10 + getWidth() / 3 + 160, 10, 45, 20);
+        stylePriorityButton(decreasePriorityButton);
+        decreasePriorityButton.addActionListener(e -> changePriority(-1));
+        topBar.add(decreasePriorityButton);
 
         deleteButton = new JButton("");
         deleteButton.setBackground(CCR_Colors.CLS_BUTTON_BG);
@@ -81,5 +110,44 @@ public class CCR_TodoBox extends JPanel{
         // Add up the components
         add(topBar, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
+    }
+
+    private void stylePriorityButton(JButton btn){
+        btn.setBackground(CCR_Colors.BUTTON_BG);
+        btn.setForeground(CCR_Colors.TEXT_COLOR);
+        btn.setFocusPainted(false);
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        btn.setBorder(null);
+    }
+
+    private void changePriority(int delta){
+        priority += delta;
+        if (priority < 1) priority = 1;
+        if (priority > 3) priority = 3;
+        priorityLabel.setForeground(new Color(0x2ECC71)); // start as Low = green
+        priorityLabel.setText(priorityName(priority));
+    
+        // Update label color
+        switch(priority){
+            case 1: // Low
+                priorityLabel.setForeground(new Color(0x2ECC71)); // green
+                break;
+            case 2: // Medium
+                priorityLabel.setForeground(new Color(0xE67E22)); // orange
+                break;
+            case 3: // High
+                priorityLabel.setForeground(new Color(0xE74C3C)); // red
+                break;
+        }
+    }
+
+
+    private String priorityName(int p){
+        switch(p){
+            case 1: return "Low";
+            case 2: return "Medium";
+            case 3: return "High";
+            default: return "Unknown";
+        }
     }
 }
