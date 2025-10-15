@@ -1,49 +1,82 @@
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import java.awt.Font;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 
-import javafx.scene.text.Font;
-
-import java.awt.Color;
-
-import javax.swing.BorderFactory;
-
+// Panel with the todo info
 public class CCR_TodoBox extends JPanel{
-    /* Panel where all todo-box components exist, save positions here */
-    public JTextField titleField;
-    public JTextArea descriptionArea;
 
-    public CCR_TodoBox(JFrame parentFrame, int yPosition){
-        // Panel properties
-        setLayout(null);
-        setBounds(5, yPosition, parentFrame.getWidth() - 15, 125);
-        setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255, 255), 2, true));
-        setBackground(new Color(75, 75, 75, 255));
-        setVisible(true);
+    // Title of the todo 
+    private JTextField titleField;
 
-        // Title text field
-        titleField = new JTextField();
-        titleField.setBounds(getWidth() / 2 - (getWidth() / 3) / 2, 5, getWidth() / 3, 19);
-        titleField.setForeground(new Color(0, 0, 0, 255));
-        titleField.setBackground(new Color(255, 255, 255, 0));
-        titleField.setBorder(BorderFactory.createLineBorder(getBackground()));
-        add(titleField);
+    // Description of the todo
+    private JTextArea descriptionArea;
 
-        // Description text area
-        descriptionArea = new JTextArea("• "); // start with a bullet
+    // Deletes a task
+    private JButton deleteButton;
+
+    public CCR_TodoBox(JFrame parentFrame, int taskCount, JPanel container){
+        setLayout(new BorderLayout());
+        setPreferredSize(new Dimension(parentFrame.getWidth() - 50, 125));
+        setMaximumSize(new Dimension(parentFrame.getWidth() - 50, 125));
+        setBackground(CCR_Colors.PANEL_BG);
+        setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createEmptyBorder(5, 5, 5, 5), // margin around each box
+            BorderFactory.createLineBorder(CCR_Colors.ACCENT, 1, true)
+        ));
+
+        // Title field and task delete button
+        JPanel topBar = new JPanel(new BorderLayout());
+        topBar.setBackground(CCR_Colors.PANEL_BG);
+        topBar.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+
+        titleField = new JTextField("Task #" + (taskCount + 1));
+        titleField.setForeground(CCR_Colors.TEXT_COLOR);
+        titleField.setBackground(CCR_Colors.TEXT_BG);
+        titleField.setCaretColor(CCR_Colors.TEXT_COLOR);
+        titleField.setBorder(null);
+        titleField.setFont(new Font("Consolas", Font.PLAIN, 17));
+
+        deleteButton = new JButton("");
+        deleteButton.setBackground(CCR_Colors.CLS_BUTTON_BG);
+        deleteButton.setForeground(CCR_Colors.TEXT_COLOR);
+        deleteButton.setFocusPainted(false);
+        deleteButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 1,0));
+        deleteButton.setFont(new Font("Consolas", Font.BOLD, 12));
+        deleteButton.setPreferredSize(new Dimension(35, 25));
+        deleteButton.addActionListener(e -> {
+            container.remove(this);
+            container.revalidate();
+            container.repaint();
+        });
+
+        topBar.add(titleField, BorderLayout.CENTER);
+        topBar.add(deleteButton, BorderLayout.EAST);
+
+        // Description area
+        descriptionArea = new JTextArea("");
         descriptionArea.setLineWrap(true);
         descriptionArea.setWrapStyleWord(true);
-        descriptionArea.setForeground(Color.WHITE);
-        descriptionArea.setBackground(new Color(45, 45, 45));
-        descriptionArea.setCaretColor(Color.WHITE);
+        descriptionArea.setForeground(CCR_Colors.TEXT_COLOR);
+        descriptionArea.setBackground(CCR_Colors.TEXT_BG);
+        descriptionArea.setCaretColor(CCR_Colors.TEXT_COLOR);
+        descriptionArea.setFont(new Font("Consolas", Font.PLAIN, 16));
+        descriptionArea.setBorder(null);
 
         JScrollPane scrollPane = new JScrollPane(descriptionArea);
-        scrollPane.setBounds(getWidth() / 2 - (getWidth() - 20) / 2, 30, getWidth() - 20, 80);
-        add(scrollPane);
+        scrollPane.setBounds(10, 40, getWidth() - 20, 75);
+        scrollPane.setBorder(null);
+        scrollPane.getVerticalScrollBar().setBackground(CCR_Colors.TEXT_BG);
+        scrollPane.getViewport().setBackground(CCR_Colors.TEXT_BG);
+        
+        // Add up the components
+        add(topBar, BorderLayout.NORTH);
+        add(scrollPane, BorderLayout.CENTER);
     }
 }

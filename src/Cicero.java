@@ -1,10 +1,10 @@
-import javax.swing.JFrame;
+// TODO: Add saved workspaces
 
 public class Cicero{
     public static void main(String[] args){
-        System.out.println("Hello, World!");
-
         CCR_GUI gui = new CCR_GUI();
-        JFrame CCR_Window = gui.CCR_WindowCreate();
+        // JFrame CCR_Window = gui.CCR_WindowCreate();
+
+        gui.CCR_WindowCreate();
     }
 }
