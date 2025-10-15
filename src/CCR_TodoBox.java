@@ -21,7 +21,8 @@ public class CCR_TodoBox extends JPanel{
     // Deletes a task
     private JButton deleteButton;
 
-    public CCR_TodoBox(JFrame parentFrame, int taskCount, JPanel container){
+    // Todo box constructor
+    public CCR_TodoBox(JFrame parentFrame, JPanel container){
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(parentFrame.getWidth() - 50, 125));
         setMaximumSize(new Dimension(parentFrame.getWidth() - 50, 125));
@@ -36,7 +37,7 @@ public class CCR_TodoBox extends JPanel{
         topBar.setBackground(CCR_Colors.PANEL_BG);
         topBar.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
-        titleField = new JTextField("Task #" + (taskCount + 1));
+        titleField = new JTextField("Task #" + (CCR_GUI.taskCount + 1));
         titleField.setForeground(CCR_Colors.TEXT_COLOR);
         titleField.setBackground(CCR_Colors.TEXT_BG);
         titleField.setCaretColor(CCR_Colors.TEXT_COLOR);
@@ -54,6 +55,8 @@ public class CCR_TodoBox extends JPanel{
             container.remove(this);
             container.revalidate();
             container.repaint();
+
+            CCR_GUI.taskCount--; // Lower the task count
         });
 
         topBar.add(titleField, BorderLayout.CENTER);
